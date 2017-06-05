@@ -1,0 +1,52 @@
+#!/bin/bash -ex
+
+[ "$FAB_HTTP_PROXY" ] && export http_proxy="$FAB_HTTP_PROXY"
+
+dl() {
+    [ "$FAB_HTTP_PROXY" ] && PROXY="--proxy $FAB_HTTP_PROXY"
+    cd $2; curl -L -f -O $PROXY $1; cd -
+}
+
+# http://mosquitto.org/2013/01/mosquitto-debian-repository/
+
+curl http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key | apt-key add -
+
+dl http://repo.mosquitto.org/debian/mosquitto-stable.list /etc/apt/sources.list.d/
+
+cat > /etc/apt/sources.list.d/mosquitto-wheezy.list <<!EOFmosq
+deb http://repo.mosquitto.org/debian wheezy main
+!EOFmosq
+
+# Install Mosquitto
+apt-get update
+
+DEBIAN_FRONTEND=noninteractive apt-get --force-yes --assume-yes install \
+	mosquitto \
+	mosquitto-clients \
+	python-mosquitto
+
+easy_install supervisor
+
+mkdir -p /usr/local/owntracks/backend
+git clone https://github.com/owntracks/backend.git /usr/local/owntracks/backend
+mkdir -p /usr/local/owntracks/tools
+git clone https://github.com/owntracks/tools.git /usr/local/owntracks/tools
+cd /usr/local/owntracks && ln -s backend/m2s m2s
+
+mkdir -p /usr/local/owntracks/wss
+### git clone https://github.com/owntracks/wss-static.git /usr/local/owntracks/wss
+cd /usr/local/owntracks/wss && curl -o WSS https://raw2.github.com/owntracks/WSS/tls/WSS_static_x86_Linux && chmod +x WSS
+
+# Get pip
+easy_install pip
+# http://stackoverflow.com/questions/20905350/latest-pip-fails-with-requires-setuptools-0-8-for-dist-info
+pip install setuptools --no-use-wheel --upgrade 
+
+pip install flask-peewee
+
+insserv supervisord
+
+# Clone HiveMQ MQTT client
+git clone https://github.com/hivemq/hivemq-mqtt-web-client.git /var/www/hivemq-mqtt-web-client
+
+# 

@@ -1,0 +1,401 @@
+FORMAT: 1A
+HOST: https://hosted-dev.owntracks.org/api/v1
+
+# Owntracks Hosted
+## Encryption
+All API endpoints are secured with TLS encryption. 
+Unencrypted communication is not accepted. 
+
+## Allowed HTTPs requests
+    GET    :   Get a resource or list of resources
+    POST   :   To create a resource 
+    PUT   :   To update a resource 
+    DELETE :   To delete resource
+    
+##Description Of Used Server Responses
+- 200 `OK` - the request was successful (some API calls may return 201 instead)
+- 201 `Created` - the request was successful and a resource was created
+- 400 `Bad Request` - the request could not be understood or was missing required parameters
+- 401 `Unauthorized` - authentication failed or user doesn't have permissions for requested operation
+- 403 `Forbidden` - no access token provided or the provided access token is expired, request a new one using a valid refresh token. 
+- 404 `Not Found` - resource was not found
+- 405 `Method Not Allowed` - requested method is not supported for resource.
+
+##Authentication
+The API calls below are all authenticated. There are three types of authentication credentials:
+
+- `username` / `password`: Used for signing in to your account and retrieving a refresh token
+- `refresh token`: Used to obtain a temporary access token
+- `access token`: Used for all calls that need account-wide access. Passed as request parameter or authorization header. 
+
+For more details see *Authentication* below. 
+
+
+# Group Authentication
+Authentication to the  **OwnTracks Hosted API** is done via JSON Web Token (JWT). 
+JWTs are Base64 encoded snippets that contain bits of information which are signed by the server. For more information about JWTs, see https://jwt.io/introduction/.
+
+To access authenticated API endpoints, obtain a Refresh Token first by authenticating with your username and password. 
+The response grants you a permanent refresh token that is valid until it is revoked by the user or not used for 30 days. 
+
+With the help of this token, you can obtain a temporary access token that is valid for 30 minutes after which it is automatically rejected. 
+This access token can be included as a request header in the form `Authorization: Bearer TOKEN` or as a `token` query parameter.  
+
+Each refresh and access token contain additional information about your account, such as your user ID, username and email address.
+
+## Refresh Token [/authenticate]
+### Obtain a refresh token [POST]
+Grants a permanent refresh token that can be used to obtain a temporary access token
++ Request (application/json)
+
+        {
+            "username": "username",
+            "password": "passw0rd"
+        }
+
++ Response 200 (application/json)
+
+        {
+            status: 200, 
+            data: {
+                refreshToken: "xxx"
+            }
+        }
+
+## Access Token [/authenticate/refresh]
+### Obtain an access token [POST]
+Grants a temporary access token that can be included with requests to make authenticated API calls. 
++ Request (application/json)
+    + Headers
+    
+            Authorization: Bearer XXX
+
+        
++ Response 200 (application/json)
+
+        {
+            status: 200, 
+            data: {
+                accessToken: "xxx"
+            }
+        }
+
+
+# Group Users
+User related resources. 
+
+## User Collection [/users]
+    
+### List all users [GET]
+
++ Request (application/json)
+    + Headers
+    
+            Authorization: Bearer XXX
+
++ Response 200 (application/json)
+
+        {
+            status: 200, 
+            data: {
+            }
+        }
+        
++ Response 401 (application/json)
+
+        {
+            "status": 401,
+            "error": "access denied"
+        }
+
+### Create a user [POST]
++ Attributes
+    + username: johndoe (required, string) - foo
+    + fullname: John Doe (required, string) - foo
+    + email: john@example.com (required, string) - Email address of the user
+    + password: passw0rd (required, string) - Email address of the user
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "username": "johndoe",
+                "fullname": "John Doe",
+                "email": "john@example.com",
+                "password": "passw0rd"
+            }
+
++ Response 201 (application/json)
+
+        {
+            status: 201, 
+            data: {
+                "id": 127,
+                "username": "johndoe",
+                "fullname": "John Doe",
+                "email": "john@example.com",
+                "photo": "..."
+                "createdAt": "2015-12-18T13:25:47.000Z",
+                "updatedAt": "2015-12-18T13:25:47.000Z"
+            }
+        }
++ Response 409 (application/json)
+
+        {
+            status: 409, 
+            error: "A user with the specified details already exits."
+        }
+        
+## User [/users/{userId}]
+
++ Attributes
+    + username: johndoe (string) - foo
+    + fullname: John Doe (string) - foo
+    + email: john@example.com (string) - Email address of the user
+    + password: passw0rd (string) - Email address of the user
+    + photo: ... (string) - Base64 encoded user image
+
++ Parameters
+    + userId (required, number, `1`) ... Numeric id of the user object
+
+### Retrieve a user [GET]
+   
++ Request 
+    + Headers
+    
+            Authorization: Bearer ACCESS_TOKEN
+
++ Response 200 (application/json)
+
+        {
+            status: 200, 
+            data: {
+                "id": 127,
+                "username": "johndoe",
+                "fullname": "John Doe",
+                "email": "john@example.com",
+                "photo" : "...",
+                "createdAt": "2015-12-18T13:25:47.000Z",
+                "updatedAt": "2015-12-18T13:25:47.000Z"
+            }
+        }
+    
+
+        
+        
+        
+### Edit a user [PUT]
++ Attributes
+    + username: johndoe (string) - foo
+    + fullname: John Doe (string) - foo
+    + email: john@example.com (string) - Email address of the user
+    + password: passw0rd (string) - Email address of the user
+    + photo: ... (string) - Base64 encoded user image
+
++ Request (application/json)
+    {
+        "username": "username",
+        "password": "passw0rd"
+    }
+
+    + Headers
+    
+            Authorization: Bearer XXX
+        
+
++ Response 200 (application/json)
+
+        {
+            status: 200, 
+            data: {
+                "id": 127,
+                "username": "johndoe",
+                "fullname": "John Doe",
+                "email": "john@example.com",
+                "password": "passw0rd"
+                "photo" : "",
+                "createdAt": "2015-12-18T13:25:47.000Z",
+                "updatedAt": "2015-12-18T13:25:47.000Z"
+            }
+        }
+
+
+
+### Remove a user [DELETE]
+
++ Response 204
+
+# Group Devices
+## Devices Collection [/users/{userId}/devices]
+### List all devices [GET]
+
++ Request (application/json)
+    + Headers
+    
+            Authorization: Bearer XXX
+
++ Response 200 (application/json)
+
+        {
+            status: 200, 
+            data: {
+            }
+        }
+
+### Create a device [POST]
++ Attributes
+    + id: 5 (number) - ID of the device
+    + devicename: iphone (string) - Name of the device
+    + accessToken: d92j9d82092 (string) - Login credentials for the device
+
++ Request (application/json)
+
+        {
+            "devicename": "iphone",
+        }
+        
++ Response 201 (application/json)
+
+        {
+            status: 201, 
+            data: {
+                "id": 5,
+                "devicename": "iphone",
+                "accessToken": "544k0dx2cc8xa",
+                "createdAt": "2015-12-18T13:25:47.000Z",
+                "updatedAt": "2015-12-18T13:25:47.000Z"
+            }
+        }
++ Response 409 (application/json)
+
+        {
+            status: 409, 
+            error: "A device with the specified name already exists"
+        }
+
+
+## Device [/users/{userId}/devices/{deviceId}]
+
++ Parameters
+    + userId (required, number, `1`) ... Numeric id of the user object
+    + deviceId (required, number, `1`) ... Numeric id of the device object
+
+### Retrieve a device [GET]
+
++ Request 
+    + Headers
+    
+            Authorization: Bearer XXX
+
++ Response 200 (application/json)
+
+        {
+            status: 200, 
+            data: {
+                "id": 120,
+                "userId" : 127, 
+                "devicename": "iphone"
+                "accessToken" : ""
+                "createdAt" : "", 
+                "updatedAt" : ""
+            }
+        }
+
+
+
+### Obtain new device credentials [PUT]
+Device specific login credentials are stored in a hased format. Thus they cannot be recovered once saved. 
+The only way to obtain new login credentials for a device is to generate a new set of login credentials. 
+Note that other devices that use previously generated credentials will no longer be able to access the broker once a new set of credentials has been generated.  
++ Request 
+    + Headers
+    
+            Authorization: Bearer XXX
+
++ Response 200 (application/json)
+
+        {
+            status: 200, 
+            data: {
+                "id": 120,
+                "userId" : 127, 
+                "devicename": "iphone"
+                "accessToken" : ""
+                "createdAt" : "", 
+                "updatedAt" : ""
+
+            }
+        }
+        
+### Remove a device [DELETE]
++ Response 204
+
+
+# Group Shares
+## Shares Collection [/users/{userId}/shares]
+
++ Parameters
+    + userId (required, number, `1`) ... Numeric id of the user object
+
+### List all shares [GET]
+
++ Request (application/json)
+    + Headers
+    
+            Authorization: Bearer XXX
+
++ Response 200 (application/json)
+
+        {
+            status: 200, 
+            data: {
+            }
+        }
+
+### Create a share [POST]
++ Request (application/json)
+
+        {
+            
+        }
+        
++ Response 201 (application/json)
+
+        {
+            status: 201, 
+            data: {
+            }
+        }
++ Response 409 (application/json)
+
+        {
+            status: 409, 
+            error: ""
+        }
+
+
+## Share [/users/{userId}/share/{shareId}]
+
++ Parameters
+    + userId (required, number, `1`) ... Numeric id of the user object
+    + shareId (required, number, `1`) ... Numeric id of the user share
+
+### Retrieve a share [GET]
+
++ Request 
+    + Headers
+    
+            Authorization: Bearer XXX
+
++ Response 200 (application/json)
+
+        {
+            status: 200, 
+            data: {
+            }
+        }
+
+### Remove a share [DELETE]
++ Response 204
+

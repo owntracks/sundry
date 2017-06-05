@@ -1,0 +1,36 @@
+<div class="row">
+	<div flash-alert active-class="in alert col-md-4 col-md-offset-4" class="fade">
+		<span class="alert-message">{{flash.message}}</span>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-md-offset-4" >
+		<div class="panel-default" >
+			<div class="panel-body">
+				<form role="form" class="bs-example form-horizontal">
+					<div class="input-group">
+						<input ng-model="user.username" id="username" type="username" name="username" placeholder="Username" autofocus="" required="" class="form-control">
+					</div>
+
+					<div class="input-group">
+						<input ng-model="user.password" id="password" type="password" name="password" placeholder="Password" required="" class="form-control">
+					</div>
+					<button type="submit" class="btn btn-default col-xs-12" ng-click="login()">Login</button>
+
+				</form>
+			
+
+
+			
+			</div>
+
+		
+		</div>
+		<div id="links" >
+			<a href="#/signup" >Create an account</a>
+			<span class="divider">|</span> 
+			<a href="#/recover" >Reset password</a> 
+		</div>
+	</div>
+</div>

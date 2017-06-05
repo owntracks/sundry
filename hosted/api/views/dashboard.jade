@@ -1,0 +1,83 @@
+extends layout
+
+block flash
+  - var flashClass = "col-xs-12";
+
+block body
+  .row
+    .col-xs-12.col-md-4
+      .panel.panel-default
+        .panel-heading
+          h4.head Devices
+        ul.list-group
+
+          - if(devices.length == 0)
+            li.list-group-item You don't have any devices yet
+          - else 
+            - each device in devices
+              li.list-group-item
+                a.deviceName(href='/devices/#{device.id}')= device.devicename 
+
+
+        .panel-footer
+          a(href="/devices/add", class="btn btn-primary pull-right") Add device
+          .clearfix
+
+
+    .col-xs-12.col-sm-6.col-md-4
+      .panel.panel-default.account
+        .panel-heading
+          h4.head Tracking
+        ul.list-group.tracking
+          - var empty = true
+          - each trackedUser in trackedUsers
+            - if(trackedUser.id == user.id)
+              - continue;
+            - else 
+              - empty = false;
+            
+            - if(trackedUser.Share.accepted != 0)
+              li.list-group-item
+                img(src="data:image/png;base64,#{trackedUser.photo}", class="img-circle")                  
+                a(href="/tracking/#{trackedUser.Share.id}") #{trackedUser.username}: #{trackedUser.Share.trackedDeviceDevicename}
+            - else
+              li.list-group-item.tracking-pending
+                img(src="data:image/png;base64,#{trackedUser.photo}", class="img-circle")
+                a(href="/tracking/#{trackedUser.Share.id}") #{trackedUser.username}: #{trackedUser.Share.trackedDeviceDevicename}
+                span(class="label label-default pull-right") Pending
+          -if (empty)
+            li.list-group-item You are not tracking any device
+
+
+
+
+    .col-xs-12.col-sm-6.col-md-4
+      .panel.panel-default.account
+        .panel-heading
+          h4.head Trackers
+        ul.list-group.trackers
+          - var empty = true
+          - each trackingUser in trackingUsers
+            - if(trackingUser.id == user.id)
+              - continue 
+            - else 
+              - empty = false;
+
+            - if(trackingUser.Share.accepted != 0)
+              li.list-group-item
+                img(src="data:image/png;base64,#{trackingUser.photo}", class="img-circle")
+                a(href="/trackers/#{trackingUser.Share.id}") #{trackingUser.username}: #{trackingUser.Share.trackedDeviceDevicename}
+            - else 
+              li.list-group-item.tracking-pending
+                img(src="data:image/png;base64,#{trackingUser.photo}", class="img-circle")
+                a(href="/trackers/#{trackingUser.Share.id}") #{trackingUser.username}: #{trackingUser.Share.trackedDeviceDevicename}
+                span(class="label label-default pull-right") Pending
+          -if (empty)
+            li.list-group-item Nobody is tracking you
+
+
+
+        .panel-footer
+          a(href="/trackers/add", class="btn btn-primary pull-right") Add Tracker
+          .clearfix
+

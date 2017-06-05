@@ -1,0 +1,51 @@
+extends layout
+
+block flash
+  - var flashClass = "col-xs-12 col-sm-6 col-sm-offset-3";
+
+block body
+  .row
+    .col-xs-12.col-sm-6.col-sm-offset-3
+      .panel.panel-default#profile
+        .panel-heading
+          h4 Profile
+        .panel-body
+          dl.dl-horizontal
+            dt Username
+            dd= user.username
+            dt Name
+            dd= user.fullname
+            dt Mail
+            dd= user.email
+            hr.full
+            dt GitHub login
+            dd
+              - if(user.githubId)
+                a(href="/profile/unlink/github") Disable
+              -else 
+                a(href="/profile/link/github") Enable
+            dt Twitter login
+            dd
+              - if(user.twitterId)
+                a(href="/profile/unlink/twitter") Disable
+              -else 
+                a(href="/profile/link/twitter") Enable 
+            dt Google login  
+            dd
+              - if(user.googleId)
+                a(href="/profile/unlink/google") Disable
+              -else 
+                a(href="/profile/link/google") Enable
+            dt Facebook login     
+            dd
+              - if(user.facebookId)
+                a(href="/profile/unlink/facebook") Disable
+              -else 
+                a(href="/profile/link/facebook") Enable
+        .panel-footer
+          form.bs-example.form-horizontal(method='post', action='/profile/delete')
+            button.pull-left.btn.btn-danger(type='submit', value="delete") Delete
+          a.btn.btn-white.pull-right(href='/profile/edit') Edit
+          form.bs-example.form-horizontal(method='post', action='/profile/sync')
+            button.pull-right.btn.btn-white(type='submit', value="") Sync
+          .clearfix

@@ -1,0 +1,20 @@
+{
+  "67c65bf70c596408a6170cee864fb48f93cf0f08": {
+    "desc": "Tour Eiffel",
+    "lon": 2.294486,
+    "meters": 200,
+    "lat": 48.858585
+  },
+  "c1ead452f785b59be84b21c3e5efa86c8ce5bab1": {
+    "desc": "Raststätte Bühleck",
+    "lon": 9.2364377,
+    "meters": 3000,
+    "lat": 51.3820565
+  },
+  "9edf380a29c5ef152594b36b1f3642cec2fabfcc": {
+    "desc": "Galerie Royale",
+    "lon": 2.322466,
+    "meters": 400,
+    "lat": 48.867663
+  }
+}

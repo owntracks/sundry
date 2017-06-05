@@ -1,0 +1,64 @@
+extends layout
+
+block flash
+  - var flashClass = "col-xs-12";
+
+block body
+  .row.hidden
+    .col-xs-12.col-md-6
+      .panel.panel-default
+        .panel-heading
+          h4.head User statistics
+        .panel-body
+          dl.dl-horizontal
+            dt Users
+            dd= users.length
+            dt Signups this week
+            dd 12
+
+    .col-xs-12.col-md-6
+      .panel.panel-default
+        .panel-heading
+          h4.head App statistics
+        .panel-body
+          dl.dl-horizontal
+            dt Uptime
+            dd= locals.moment.utc((new Date()).getTime()-locals.started.getTime()).format("HH:mm:ss")
+            dt Node version
+            dd= process.version
+
+
+  -var d = new Date();
+  -var day = d.getDay(); 
+  -var diff = d.getDate() - day + (day == 0 ? -6:1);
+  -var weekstart = new Date(d.setDate(diff));
+  .row
+    .col-xs-12.col-md-12
+      .panel.panel-default
+        .panel-heading
+          h4.head Users
+        table.table-striped.table.table-hover.table-bordered
+          thead
+            tr
+              td Id
+              td Username
+              td Fullname
+              td Auth
+              td Registered
+          tbody
+            - each user in users
+              tr
+                td.id
+                  =user.id
+                td.username
+                  a(href="/admin/users/#{user.id}")= user.username
+                td.fullname
+                  =user.fullname
+                td 
+                  span.label.google= user.googleId != null ? "Google" : ""
+                  span.label.twitter= user.twitterId != null ? "Twitter" : ""
+                  span.label.github= user.githubId != null ? "GitHub" : ""
+                  span.label.facebook= user.facebookId != null ? "Facebook" : ""
+                td.createdAt(class= user.createdAt >= weekstart ? "user-new" : "")
+                  =moment(user.createdAt).format("YYYY/MM/DD hh:mm")
+

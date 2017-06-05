@@ -1,0 +1,104 @@
+<div id="toolbar" class="r" >
+	<div id="toolbar-primary" class="col-xs-12 col-md-6">
+		<h1> Location History </h1>
+	</div>
+	<div id="toolbar-actions" class="col-xs-12 col-md-6">
+		<div class="dropdown pull-right"  id="history-actions-tools" >
+			<button class="btn btn-default dropdown-toggle btn-actions " ng-disabled="!devices || !device"   type="button"data-toggle="dropdown" >
+				Tools
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+				<li class="dropdown-header">Export</li>
+
+				<li><a ng-click="exportGPX()" >Export as GPX</a></li>
+				<li><a ng-click="exportCSV()" >Export as CSV</a></li>
+				<li><a ng-click="exportGeoJSON()" >Export as GeoJSON</a></li>
+
+				<li role="separator" class="divider"></li>
+				<li class="dropdown-header">Display</li>
+				<li><a ng-click="toggleSidebar()" >{{preferencesHideSidebar && 'Show' || 'Hide'}} sidebar</a></li>
+				<li><a ng-click="toggleQueryUnlimit()" >{{preferencesQueryUnlimit && 'Limit' || 'Unlimit'}} queries</a></li>
+				<li><a ng-click="fitAllRecords()">Fit all records</a></li>
+
+			</ul>
+		</div>
+
+	
+		<input type="hidden" id="dayPickerFiled"/>
+		<div class="dropdown pull-right" id="history-actions-date-day" >
+			<button class="btn btn-default dropdown-toggle btn-actions " ng-disabled="!devices || !device" id="dayPicker"  type="button" data-toggle="dropdown" >
+				{{dayLabel || "Day"}}
+				<span class="caret"></span>
+			</button>
+			
+		</div>
+		
+		<div class="dropdown pull-right"  id="history-actions-date-month" >
+			<button class="btn btn-default dropdown-toggle btn-actions " ng-disabled="!devices || !device"   type="button"data-toggle="dropdown" >
+				{{monthLabel || "Month"}}
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+				<li><a ng-click="monthSelected(0)" >All</a></li>
+				<li role="separator" class="divider"></li>
+
+				<li ng-repeat="month in months | filter: {v:'true'}"> <a ng-click="monthSelected(month.i)" >{{month.l}}</a> </li>
+
+			</ul>
+		</div>
+
+		<div class="dropdown pull-right" id="history-actions-date-year">
+			<button class="btn btn-default dropdown-toggle btn-actions " ng-disabled="!devices || !device" type="button"  data-toggle="dropdown" >
+				{{yearLabel || "Year"}}
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+				<li><a ng-click="yearSelected(0)" >All</a></li>
+				<li role="separator" class="divider"></li>
+				<li ng-repeat="year in years"> <a ng-click="yearSelected(year)" >{{year}}</a> </li>
+			</ul>
+		</div>
+		
+
+		
+		<div class="dropdown pull-right" id="history-actions-device">
+			<button class="btn btn-default dropdown-toggle btn-actions " ng-disabled="!devices "  type="button"  data-toggle="dropdown" >
+				{{devicesLabel || "Device"}}
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+				<li ng-repeat="device in devices"> <a ng-click="deviceSelected(device)" >{{device.devicename}}</a> </li>
+			</ul>
+		</div>
+
+
+	</div>
+</div>
+<div id="body-max">
+	<div id="map-sidebar" class="col-xs-3" ng-show="!preferencesHideSidebar">
+		<ul>
+			<li class="placeholder" id="placeholder-device" ng-if="!device">
+				Please select a device above
+			</li>
+			<li class="placeholder" id="placeholder-limit" ng-if="device && queryLimit" ng-click="queryUnlimit()">
+				Records are limited to the last day. <br/>Click to load all. 
+			</li>
+			<li class="placeholder" id="placeholder-noresult" ng-if="device && !records">
+				The current filter didn't return any result
+			</li>
+		</ul>
+		<ul id="records" vs-repeat ng-show="records">
+	
+			<li class="r" ng-repeat="record in records" ng-mouseover="recordSelected($index+startIndex, false)" ng-click="recordSelected($index+startIndex, true)">
+				<span class="addr"> {{::record.addr}} </span>
+				<span class="disptst"> {{::record.disptst}} </span>
+		</li>
+			
+
+		</ul>
+	</div>
+
+	<div id="map" ></div>
+	
+</div>

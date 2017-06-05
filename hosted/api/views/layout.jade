@@ -1,0 +1,78 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		meta(content='width=device-width, initial-scale=1', name='viewport')
+		title= 'OwnTracks Hosted Beta'
+		link(href='/css/bootstrap.css', rel='stylesheet')
+		link(href='/css/app.css', rel='stylesheet')
+		link(href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css", rel='stylesheet')
+
+	body
+		.page-container.page-row
+			nav(class="navbar navbar-default navbar-static-top")
+				.container-fluid 
+					.navbar-header
+					
+						- if(user)
+							button(type="button", class="navbar-toggle", data-toggle="collapse", data-target="#navbar")
+								span.sr-only Toggle Navigation
+								span.icon-bar
+								span.icon-bar
+								span.icon-bar
+						a(class="navbar-brand" href="/") OwnTracks Hosted Beta
+					- if(user)
+						div(id="navbar", class="navbar-collapse collapse in")
+							ul(class="nav navbar-nav navbar-left")
+								-if(user.isAdmin())
+									li 
+										a(href="/admin") Admin
+							ul(class="nav navbar-nav navbar-right")
+								li.dropdown
+									a(href="#", class="dropdown-toggle dropdown-toggle-collapse" data-toggle="dropdown")
+										| User
+									a(href="#", class="dropdown-toggle dropdown-toggle-nocollapse" id="user" data-toggle="dropdown")
+										img(src="data:image/png;base64,#{user.photo}", class="img-circle")
+										span.name=user.username
+									ul(class="dropdown-menu" role="menu")
+										li
+											a(href="/profile") Profile
+										li
+											a(href="/logout") Logout
+							.clearfix
+
+    
+		.container-fluid.page-row-expanded
+			- var flashClass = 'col-xs-12';
+			block flash
+			- if(flash_error.length > 0)
+				.row.flash
+					div(class="#{flashClass}")
+						.alert.alert-danger !{flash_error}
+			- if(flash_success.length > 0)
+				.row.flash
+					div(class="#{flashClass}")
+						.alert.alert-success !{flash_success}
+
+			.row
+				.col-sm-12
+					block body
+		footer.footer.page-row
+			div.pull-left
+				| © 2015 OwnTracks
+			ul.navbar-right
+				li
+					a(href="http://owntracks.org/booklet/privacy/#privacy-policy") Privacy Policy
+				li
+					a(href="http://owntracks.org/booklet") Documentation
+				li 
+					a(href="https://github.com/owntracks/hosted/issues") Issues
+				li
+					a(href="https://twitter.com/owntracks") Twitter
+				li
+					a(href="https://community.owntracks.org") Community
+					
+	script(type='text/javascript', src='/js/jquery-2.1.3.min.js')
+	script(type='text/javascript', src='/js/bootstrap.min.js')
+	script(type='text/javascript', src='/js/app.js')
+

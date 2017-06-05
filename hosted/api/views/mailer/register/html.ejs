@@ -1,0 +1,29 @@
+Dear <%=locals.data.fullname%>,<br/><br/>
+
+Thank you for signing up with us. <br/><br/>
+<% var provider; 
+ if(locals.data.githubId)
+	provider = "github"; 
+ else if(locals.data.twitterId)
+	provider = "twitter"; 
+ else if(locals.data.googleId)
+	provider = "google"; 
+%>
+<% if(provider) {%>
+	Your new account has been setup and you can now login using your <%= provider.substring(0, 1).toUpperCase() + provider.substring(1) %> credentials.<br/> 
+        To login, visit <a href="<%=locals.config.externalUrl%>/login/<%=provider%>"><%=locals.config.externalUrl%>/login/<%= provider%></a> <br/><br/>
+<% } else {%>
+	Your new account has been setup and you can now login using the details below.<br/><br/>
+
+	Username: <%= locals.data.username %> <br/>
+	Password: The one you specified during the signup process <br/><br/>
+
+	To login, visit <a href="<%=locals.config.externalUrl%>/login"><%=locals.config.externalUrl%>/login</a> <br/><br/>
+<% } %>
+
+
+Kind regards,<br/><br/>
+
+The OwnTracks Hosted team<br/>
+Follow us on Twitter: <a href="https://twitter.com/owntracks">https://twitter.com/owntracks</a> <br/>
+Join our community: <a href="https://community.owntracks.org">https://community.owntracks.org</a>

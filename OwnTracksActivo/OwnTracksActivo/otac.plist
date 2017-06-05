@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Publish</key>
+	<string>owntracks/user/demo/jobs/currentjob</string>
+	<key>Host</key>
+	<string>localhost</string>
+	<key>Port</key>
+	<integer>1883</integer>
+	<key>SSL</key>
+	<false/>
+	<key>ClientId</key>
+	<string>OwnTracksActivo</string>
+	<key>UserName</key>
+	<string></string>
+	<key>Password</key>
+	<string></string>
+	<key>Subscription</key>
+	<string>owntracks/user/demo/jobs/#</string>
+	<key>KeepDays</key>
+	<integer>7</integer>
+	<key>Beacons</key>
+	<array/>
+	<key>Background</key>
+	<dict>
+		<key>Alpha</key>
+		<integer>255</integer>
+		<key>Red</key>
+		<integer>63</integer>
+		<key>Green</key>
+		<integer>114</integer>
+		<key>Blue</key>
+		<integer>181</integer>
+	</dict>
+	<key>Caption</key>
+	<string>OwnTracksActivo</string>
+</dict>
+</plist>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html ng-app="sample" ng-controller="AppCtrl">
+<head>
+	<title ng-bind="pageTitle"></title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel='stylesheet' href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css'  />
+	<link rel='stylesheet' type='text/css' href='vendor/angular-loading-bar/build/loading-bar.min.css'/>
+	<link rel="stylesheet" type="text/css" href="vendor/pikaday/css/pikaday.css">
+	
+		<link rel="stylesheet" type="text/css" href="vendor/ng-dialog/css/ngDialog.min.css">
+
+	<link rel="stylesheet" type="text/css" href="vendor/ng-dialog/css/ngDialog-theme-plain.min.css">
+	<link rel="stylesheet" type="text/css" href="app.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+	<script>L_PREFER_CANVAS = true;</script>
+
+
+	
+
+
+	<script type="text/javascript" src="vendor/angularjs/angular.js"></script>
+	<script type="text/javascript" src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
+	<script type="text/javascript" src="vendor/a0-angular-storage/dist/angular-storage.js" > </script>
+	<script type="text/javascript" src="vendor/angular-jwt/dist/angular-jwt.js"> </script>
+	<script type='text/javascript' src='vendor/angular-loading-bar/build/loading-bar.min.js'></script>
+	<script type='text/javascript' src='vendor/angular-vs-repeat/src/angular-vs-repeat.min.js'></script>
+	<script type='text/javascript' src='vendor/pikaday/pikaday.js'></script>
+	<script type='text/javascript' src="vendor/ng-dialog/js/ngDialog.min.js"></script>
+	<script type='text/javascript' src="vendor/angular-flash/dist/angular-flash.min.js"></script>
+
+
+	
+	<script type="text/javascript" src="app.js"></script>
+	<script type="text/javascript" src="shares/shares.js"></script>
+	<script type="text/javascript" src="devices/devices.js"></script>
+	<script type="text/javascript" src="history/history.js"></script>
+	<script type="text/javascript" src="login/login.js"></script>
+	<script type="text/javascript" src="signup/signup.js"></script>
+	<script type="text/javascript" src="account/account.js"></script>
+
+</head>
+<body id="{{bodyId}}">
+    <nav class="navbar" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">OwnTracks Hosted</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-if="AuthenticationService.loggedIn">
+                <ul class="nav navbar-nav">
+					<li>
+						<a href="#/devices" >Devices</a>
+					</li>
+					<li>
+						<a href="#/shares" >Shares</a>
+					</li>
+					<li>
+						<a href="#/history" >History</a>
+					</li>
+
+                </ul>
+				
+				<ul id="account" class="nav navbar-nav pull-right" ng-if="AuthenticationService.loggedIn">
+					<li>	
+
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+							<!--<img id="account-photo" src="data:image/png;base64,{{user.photo}}" class="img-circle" ng-if="user"/>-->
+							<span id="account-name">{{AuthenticationService.currentUser.fullname || AuthenticationService.currentUser.username}}</span>
+						</a>
+						<ul class="dropdown-menu pull-right ">
+							<li>
+								<a ng-click="editAccount()">Account</a>
+							</li>
+							<li>
+								<a href="#" ng-click="logout()" >Logout</a>
+							</li>
+						</li>
+					</li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="main" ui-view>
+
+
+    </section>
+	<footer id="footer" >
+		<div id="copyright" class="pull-left"> &copy; 2016 OwnTracks</div>
+		<ul class="pull-right">
+			<li><a href="http://owntracks.org/booklet/privacy/#privacy-policy">Privacy Policy</a></li>
+			<li><a href="http://owntracks.org/booklet">Documentation</a></li>
+			<li><a href="https://github.com/owntracks/hosted/issues">Issues</a></li>
+			<li><a href="https://twitter.com/owntracks">Twitter</a></li>
+			<li><a href="https://community.owntracks.org">Community</a></li>
+		</ul>
+	</footer>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<TITLE>OwnTracks - find my family & friends</title>
+
+		<meta name=viewport content="user-scalable=no,width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<meta charset="utf-8">
+		<style>
+		      html, body, #map {
+		        margin: 0;
+		        padding: 0;
+		        height: 99%;
+		      }
+		      #legend {
+		        font-family: Arial, sans-serif;
+		        background: #fff;
+		        padding: 5px;
+		        margin: 5px;
+		        border: 1px solid #000;
+		      }
+		      #legend h3 {
+		        margin-top: 0;
+		      }
+		      #legend img {
+		        vertical-align: middle;
+		      }
+		</style>
+
+		<script src="config.js" type="text/javascript"></script>
+		
+		<script src="http://maps.googleapis.com/maps/api/js?key=XXXXXXXXXXXXXX&sensor=false"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+		<script src="mqttws31.js" type="text/javascript"></script>
+
+		<script>
+		// To be used with websockets, mqtt and http://owntracks.org/ project for ios/android. 
+		// You will also need to setup a google maps api key.https://code.google.com/apis/console
+		// and need the mqtt javascript library 
+		// http://git.eclipse.org/c/paho/org.eclipse.paho.mqtt.javascript.git/plain/src/mqttws31.js
+		// by Matthew Bordignon @bordignon September 2013 updated June 2014
+		//
+		//Settings for MQTTbroker, MQTTport and MQTTsubTopic are located in the config.js file. Don't forget to add the googlemaps api key above as well.
+
+			var personArray = new Array();
+			var pinColourArray = new Array('red','blue','yellow','pink','green','lightblue','orange','purple','red-dot','blue-dot','yellow-dot','pink-dot','green-dot','lightblue-dot','orange-dot','purple-dot');
+
+			var client = new Messaging.Client(MQTTbroker, MQTTport,
+							"myclientid_" + parseInt(Math.random() * 100, 10));
+						
+
+			client.onConnectionLost = function (responseObject) {
+				alert("connection lost: " + responseObject.errorMessage);
+				console.log("connection lost");
+			};
+
+			client.onMessageArrived = function (message) {
+				console.log(message.destinationName + ' -- ' + message.payloadString);
+				var recievedmsg = message.payloadString;
+				//check to see if payload is JSON
+				try {
+		   			var myObj = jQuery.parseJSON(recievedmsg); //parse payload
+		    	} catch (e) {
+		    		console.log(e);
+		        	return false;
+		    	};
+				
+				//check to see if latittude (lat) is in the JSON message
+				if ("lat" in myObj){
+					//property exists
+					var myDate = new Date(myObj.tst *1000); //convert epoch time to readible local datetime
+					var markerinfo = myDate+'<br /><b>'+message.destinationName+'</b><br />'+message.payloadString;
+					addMarker(myObj.lat,myObj.lon,markerinfo, message.destinationName); //add marker based on lattitude and longittude, using timestamp for description for now
+					center = bounds.getCenter(); //center on marker, zooms in to far atm, needs to be fixed!
+					map.fitBounds(bounds); 
+				};
+			};
+			
+			var options = {
+				timeout: 3,
+				onSuccess: function () {
+					// alert("Connected");
+					console.log("mqtt connected");
+					// Connection succeeded; subscribe to our topic
+					client.subscribe(MQTTsubTopic, {qos: 0});
+				},
+				onFailure: function (message) {
+					alert("Connection failed: " + message.errorMessage);
+					console.log("connection failed");
+				}
+			};
+
+
+		var center = null;
+		var map = null;
+		var currentPopup;
+		var bounds = new google.maps.LatLngBounds();
+		var x = 0;
+		var markers = {};
+		var latestlocations = []; // creating dictionary of latest locations.
+
+
+		function addMarker(lat, lng, info, person) {
+			//console.log('addmaker -- ' + lat + ' ' + lng + ' ' + info + ' ' + person);
+			
+			var pinColour = 'blue' //default colour of pin
+				
+			//check the array if the person is already added to the array, if not add it.
+			if (personArray.indexOf(person) < 0){
+				personArray.push(person); //add the new person to the array
+				pinColour = pinColourArray[personArray.indexOf(person)]; 				// add the new person to the legend on the map
+				var div = document.createElement('div');
+				div.innerHTML = '<img onclick="selectmarker('+ personArray.indexOf(person) +')" src="http://maps.google.com/mapfiles/ms/micons/' + pinColour + '.png"> ' + person;
+				legend.appendChild(div);
+				//create a new item for person
+				latestlocations.push({
+					key: 	personArray.indexOf(person),
+					value: 	0, 
+				});
+
+			}
+
+			//check the pincolour for the person
+			pinColour = pinColourArray[personArray.indexOf(person)];
+
+			//assign the marker colour
+			var icon = new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/micons/" + pinColour +".png",
+				   new google.maps.Size(32, 32), new google.maps.Point(0, 0),
+				   new google.maps.Point(16, 32));
+			var pt = new google.maps.LatLng(lat, lng);
+			bounds.extend(pt);
+			x = x + 1;
+			var marker = new google.maps.Marker({
+				position: pt,
+				icon: icon,
+				map: map,
+				id: x,
+		        animation: google.maps.Animation.DROP
+
+			});
+			
+			markers[x] = marker; //add to the markers array so we can call them later
+			latestlocations[personArray.indexOf(person)] =	markers[x]; //update array with their latest location
+
+			//create the popup for marker
+			var popup = new google.maps.InfoWindow({
+				content: info,
+				maxWidth: 400
+			});
+
+			//what happens when you click on a marker
+			google.maps.event.addListener(marker, "click", function() {
+				if (currentPopup != null) {
+					currentPopup.close();
+					currentPopup = null;
+				}
+				
+				//zoom in on the marker
+				map.setZoom(15);
+    			map.setCenter(marker.getPosition());
+    			//open the info box popup
+				popup.open(map, marker);
+				currentPopup = popup;
+			});
+
+			//what happens when you close a marker
+			google.maps.event.addListener(popup, "closeclick", function() {
+				//zoom back out to see all markers
+				center = bounds.getCenter();
+		    	map.fitBounds(bounds);
+				//map.panTo(center);
+				currentPopup = null;
+			});
+
+			//zoom in on this latest marker
+			selectmarker(personArray.indexOf(person));
+		};
+
+		//function for selecting the latest marker for a persion
+		function selectmarker(person) {
+    		google.maps.event.trigger(latestlocations[person], 'click');
+		};
+
+		function initMap() {
+			map = new google.maps.Map(document.getElementById("map"), {
+				center: new google.maps.LatLng(-37.831601,144.934047),
+				zoom: 10,
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				mapTypeControl: true,
+				mapTypeControlOptions: {
+					style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR
+				},
+				navigationControl: true,
+				navigationControlOptions: {
+					style: google.maps.NavigationControlStyle.ZOOM_PAN
+				}
+			});
+			
+			var legend = document.getElementById('legend');
+
+		    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+
+			center = bounds.getCenter();
+		    map.fitBounds(bounds);
+			
+			/* Connect to MQTT broker */
+			client.connect(options);
+		};
+		</script>
+
+	</head>
+
+	<body>
+		<body onload="initMap()" >
+		<div id="map"></div>
+		<div id="legend"><h3>Device/User</H3></div>
+	</body>
+</html>

@@ -1,0 +1,36 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/fixes.html" as fixes %}
+{% block title %}This is an example page{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+  <!-- ... -->
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+<h1>Hello, Bootstrap</h1>
+
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+		{% for message in messages %}
+		<div class="alert alert-info">
+		    <button type="button" class="close" data-dismiss="alert">&times;</button>
+		    {{ message }}
+		</div>
+		{% endfor %}
+		{% endif %}
+	{% endwith %}
+
+
+{{ wtf.quick_form(form) }}
+
+</div>
+{% endblock %}
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+{% endblock %}

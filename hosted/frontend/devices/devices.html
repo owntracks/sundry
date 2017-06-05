@@ -1,0 +1,57 @@
+<div id="toolbar" class="r">
+	<div id="toolbar-primary" class="col-xs-12 col-md-6">
+		<h1> Devices </h1>
+	</div>
+</div>
+
+
+<div id="body">
+	<table class="table table-striped  table-bordered">
+		<thead> 
+			<tr>
+				<td class="devicename" >Name</td>
+				<td class="devicelastreport">Last report</td>
+				<td class="devicelastlocation">Last location</td>
+				<td class="devicebattery">Battery</td>
+				<td class="actions"></td>
+
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="placeholder" ng-if="devices.length == 0">
+				<td>You don't have any devices yet</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+
+			</tr>
+			<tr ng-repeat="device in devices">
+
+				 <td class="devicename"> {{device.devicename}} </td>
+ 				 <td class="devicelastreport"> {{device.disptst|| '--'}}</td>
+				 <td class="devicelastlocation"> {{device.addr || '--'}}</td>
+ 				 <td class="devicebattery"> {{device.batt || '--'}}</td>
+
+				 <td class="actions"> 
+					<div class="dropdown pull-right">
+						<button class="btn btn-icon dropdown-toggle btn-actions "  type="button" id="dropdownMenu1" data-toggle="dropdown" >
+							<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span> 
+
+						</button>
+						<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+							<li><a ng-click="delete(device)" >Delete</a></li>
+						</ul>
+					</div>
+				 </td>
+
+			</tr>
+		</tbody>
+		<tfoot>
+		
+		</tfoot>
+	</table>
+
+
+</div>

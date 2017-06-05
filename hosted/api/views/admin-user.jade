@@ -1,0 +1,143 @@
+extends layout
+
+block flash
+  - var flashClass = "col-xs-12";
+
+block body
+  .row
+    .col-xs-12.col-md-6
+      .panel.panel-default
+        .panel-heading
+          h4.head User
+        .panel-body
+          dl.dl-horizontal
+            dt ID
+            dd= otheruser.id
+            dt Username
+            dd= otheruser.username
+            dt Mail
+            dd= otheruser.email
+            dt Full Name
+            dd= otheruser.fullname
+            dt Registered
+            dd= moment(otheruser.createdAt).format("YYYY/MM/DD hh:mm")
+            hr.full
+            dt Profile
+            dd
+              span.pull-right
+                a(href="#") Edit
+            dt Password
+            dd
+              span.pull-right
+                a(href="#") Reset
+            dt Card
+            dd 
+              span.pull-right
+                a(href="#") Refresh
+
+
+            hr.full
+            dt GitHub login
+            dd
+              - if(otheruser.githubId)
+                = otheruser.githubId
+                span.pull-right
+                  a(href="/admin/users/'+otheruser.id+'profile/unlink/github") Disable
+              - else 
+                | None
+            dt Twitter login
+            dd
+              - if(otheruser.twitterId)
+                = otheruser.twitterId
+                span.pull-right
+                  a(href="/profile/unlink/twitter") Disable
+              -else
+                | None 
+            dt Google login
+            dd
+              - if(otheruser.googleId)
+                = otheruser.googleId
+                span.pull-right
+                  a(href="/profile/unlink/google") Disable
+              -else
+                | None
+            dt Facebook login
+            dd
+              - if(otheruser.facebookId)
+                = otheruser.facebookId
+                span.pull-right
+                  a(href="/profile/unlink/facebook") Disable
+              -else
+                | None
+            hr.full
+            dt Account
+            dd
+              span.pull-right
+                a(href="#") Delete
+
+    .col-xs-12.col-md-6
+      .panel.panel-default
+        .panel-heading
+          h4.head Devices
+        ul.list-group
+          - if(devices.length == 0)
+            li.list-group-item= otheruser.username + " does not have any devices yet"
+          - else 
+            - each device in devices
+              li.list-group-item
+                span.deviceName= device.devicename 
+                span.pull-right
+                  a(href='/admin/devices/#{device.id}/reset') Reset
+                  |&nbsp;|&nbsp;
+                  a(href='/admin/devices/#{device.id}/delete') Delete
+      
+      .panel.panel-default.account
+        .panel-heading
+          h4.head Tracking
+        ul.list-group.tracking
+          - var empty = true
+          - each trackedUser in trackedUsers
+            - if(trackedUser.id == user.id)
+              - continue;
+            - else 
+              - empty = false;
+            
+            - if(trackedUser.Share.accepted != 0)
+              li.list-group-item
+                img(src="data:image/png;base64,#{trackedUser.photo}", class="img-circle")                  
+                a(href="/admin/users/#{trackedUser.id}") #{trackedUser.username}
+                | : #{trackedUser.Share.trackedDeviceDevicename}
+            - else
+              li.list-group-item.tracking-pending
+                img(src="data:image/png;base64,#{trackedUser.photo}", class="img-circle")
+                a(href="/admin/users/#{trackedUser.id}") #{trackedUser.username}
+                |: #{trackedUser.Share.trackedDeviceDevicename}
+                span(class="label label-default pull-right") Pending
+          -if (empty)
+            li.list-group-item= otheruser.username + " is not tracking any device"
+
+      .panel.panel-default.account
+        .panel-heading
+          h4.head Trackers
+        ul.list-group.trackers
+          - var empty = true
+          - each trackingUser in trackingUsers
+            - if(trackingUser.id == user.id)
+              - continue 
+            - else 
+              - empty = false;
+
+            - if(trackingUser.Share.accepted != 0)
+              li.list-group-item
+                img(src="data:image/png;base64,#{trackingUser.photo}", class="img-circle")
+                a(href="/admin/users/#{trackingUser.id}") #{trackingUser.username}
+                |: #{trackingUser.Share.trackedDeviceDevicename}
+            - else 
+              li.list-group-item.tracking-pending
+                img(src="data:image/png;base64,#{trackingUser.photo}", class="img-circle")
+                a(href="/admin/users/#{trackingUser.id}") #{trackingUser.username}
+                |: #{trackingUser.Share.trackedDeviceDevicename}
+                span(class="label label-default pull-right") Pending
+          -if (empty)
+            li.list-group-item= "Nobody is tracking " + otheruser.username
+

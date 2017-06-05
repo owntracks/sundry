@@ -1,0 +1,20 @@
+extends layout
+
+block flash
+	- var flashClass = "col-xs-12 col-sm-6 col-sm-offset-3";
+
+block body
+	.row
+		.col-xs-12.col-sm-6.col-sm-offset-3
+			.panel.panel-default
+				.panel-heading
+					h4.head Forgot password 
+				form.bs-example.form-horizontal(method='post', action='/profile/recover')
+					.panel-body
+						p 
+							| Forgot your account's password? Enter your email address and we'll send you a recovery link.
+						input#name.form-control(name='email', type='email', placeholder='Email', autofocus, required)
+					.panel-footer
+						button.pull-right.btn.btn-primary(type='submit') Send
+						.clearfix
+

@@ -1,0 +1,18 @@
+Dear <%=locals.data.fullname%>,<br/><br/>
+
+You are receiving this because you (or someone else) have requested the reset of the password for your account <br/><br/>
+
+Please click on the following link, or paste this into your browser to complete the process <br/>
+<a href="<%=locals.config.externalUrl%>/profile/reset/<%= locals.data.passwordResetToken%>"><%=locals.config.externalUrl%>/profile/reset/<%= locals.data.passwordResetToken%></a><br/><br/>
+
+The link will expire in 60 minutes. <br/>
+The username of your account is: <%= locals.data.username%>
+<br/><br/>
+
+If you did not request this, please ignore this email and your password will remain unchanged.<br/>
+
+Kind regards,<br/><br/>
+
+The OwnTracks Hosted team<br/>
+Follow us on Twitter: <a href="https://twitter.com/owntracks">https://twitter.com/owntracks</a> <br/>
+Join our community: <a href="https://community.owntracks.org">https://community.owntracks.org</a>

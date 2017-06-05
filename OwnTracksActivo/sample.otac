@@ -1,0 +1,15 @@
+{
+	"Publish": "owntracks/user/demo/jobs/currentjob",
+	"Host": "nowhere.owntracks.org",
+	"Port": 8883,
+	"SSL":	true,
+	"ClientId": "owntracksjobs",
+	"UserName": "suer",
+	"Password": "paswsord",
+	"Subscription": "owntracks/user/demo/jobs/#",
+	"KeepDays": 7,
+	"Beacons": [
+		"12345678-1234-1234-1234-1234567890AB"
+	]
+}
+

@@ -1,0 +1,20 @@
+	<h1 class="formTitle">New Location Share</h1>
+	<p class="formExplanation">Share your location by selecting one of your devices and enter a user that shall be able to see your updates. <br/>
+	Please note that it might require a reconnect until the new share shows up for the other user </p>
+
+<form  ng-submit="saveTracker()" role="form" class="form-horizontal clearfix">
+	
+	<div class="input-group">
+			<select name="device" class="form-control" required ng-model="formData.deviceId">
+				<option selected disabled value="">Device</option>
+	
+				<option ng-repeat="device in devices" value="{{device.id}}"> {{device.devicename}}</option>	
+			</select>
+	</div>
+
+	<div class="input-group">
+		<input ng-model="formData.username" id="username" type="text" name="text" placeholder="Username" required class="form-control">
+	</div>
+	<input type="submit" class="btn btn-default pull-right" value="Submit" />
+
+</form>

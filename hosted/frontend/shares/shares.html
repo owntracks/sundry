@@ -1,0 +1,122 @@
+<div id="toolbar" class="r">
+	<div id="toolbar-primary" class="col-xs-12 col-md-6">
+		<h1> Location Shares </h1>
+	</div>
+	<div id="toolbar-actions" class="col-xs-12 col-md-6">
+		<div class="dropdown pull-right">
+			<button class="btn btn-default dropdown-toggle btn-actions "  type="button" id="dropdownMenu1" data-toggle="dropdown" >
+				Actions
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+				<li><a ng-click="addTracker()" >Add share</a></li>
+			</ul>
+		</div>
+	</div>
+
+</div>
+
+
+<div id="body">
+	<div class="row">
+		<div class="col-md-6 col-xs-12">
+			<div class="panel-header panel-header-outside">
+				<h3> From you</h3>
+
+				
+			</div>	
+
+			<table class="table table-striped  table-bordered" id="trackers">
+				<thead> 
+					<tr>
+						<td class="username" >User</td>
+						<td class="device">Device</td>
+						<td class="status"></td>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="placeholder" ng-if="shares.length == 0">
+							<td>You haven't shared any devices yet</td>
+							<td></td>
+							<td></td>
+					</tr>
+
+					<tr ng-repeat="share in shares | filter: {from: {id: AuthenticationService.currentUser.userId}}">
+
+						<td class="username" >
+							<!--<img src="data:image/png;base64,{{tracker.photo}}" class="img-circle"/> -->
+							{{share.to.fullname || share.to.username}}
+						</td>
+						<td class="device">{{share.from.device.devicename}}</td>
+
+
+						 <td class="actions"> 
+						 
+						
+							<div class="dropdown pull-right">
+
+								<span class="label-share label dropdown-toggle {{share.accepted ? 'label-default' : 'label-primary'}}" data-toggle="dropdown">{{share.accepted == 1 ? "Accepted" : "Pending"}}</span>
+
+								<ul class="dropdown-menu pull-right">
+									<li><a ng-click="deleteShare(share)" >Revoke</a></li>
+								</ul>
+							</div>
+						 </td>
+
+					</tr>
+				</tbody>
+				<tfoot>
+				
+				</tfoot>
+			</table>
+		</div>
+		
+		<div class="col-md-6 col-xs-12">
+			<div class="panel-header">
+				<h3> With you</h3>
+			</div>
+
+		<table class="table table-striped table-bordered" id="trackings">
+				<thead> 
+					<tr>
+						<td class="username" >User</td>
+						<td class="device">Device</td>
+						<td class="status"></td>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="placeholder" ng-if="shares.length == 0">
+							<td>Nobody has shared any devices with you yet</td>
+							<td></td>
+							<td></td>
+					</tr>
+					<tr ng-repeat="share in shares | filter: {to: {id: AuthenticationService.currentUser.userId}}">
+
+						<td class="username" >
+							<!--<img src="data:image/png;base64,{{tracking.photo}}" class="img-circle"/>-->
+							{{share.from.fullname || share.from.username}}
+							</td>
+						<td class="device">{{share.from.device.devicename}}</td>
+
+
+						 <td class="actions"> 
+							<div class="dropdown pull-right">
+								<span class="label-share label dropdown-toggle {{share.accepted ? 'label-default' : 'label-primary'}}" data-toggle="dropdown">{{share.accepted ? "Accepted" : "Pending"}}</span>
+								<ul class="dropdown-menu pull-right" >
+									<li><a ng-click="deleteTracking(tracking.id)" ng-really-message="Are you sure you want to untrack {{tracking.trackedDeviceDevicename}} of {{tracking.fullName || tracking.username}}"? ng-really-click="untrack(tracking)" >Untrack</a></li>
+								</ul>
+							</div>
+						 </td>
+
+					</tr>
+				</tbody>
+				<tfoot>
+				
+				</tfoot>
+			</table>
+		</div>
+	<div>
+
+</div>

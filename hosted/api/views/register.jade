@@ -1,0 +1,33 @@
+extends layout
+
+block flash
+  - var flashClass = "col-xs-12 col-sm-6 col-sm-offset-3";
+ 
+block body
+  .row
+    .col-xs-12.col-sm-6.col-sm-offset-3
+      .panel.panel-default#register
+        .panel-heading
+          h4 Register
+        form.bs-example.form-horizontal(method='post', action='/register')
+          .panel-body
+              fieldset
+                .form-group
+                  .col-lg-12
+                    input#username.form-control(name='username', type='username', placeholder='Username', autofocus, required, pattern="[a-zA-Z0-9]+", oninvalid="this.setCustomValidity('Please enter a valid alphanumeric username')",  onchange="try{this.setCustomValidity('')}catch(e){}")
+                .form-group
+                  .col-lg-12
+                    input#fullname.form-control(name='fullname', type='username', placeholder='Name', required)
+                .form-group
+                  .col-lg-12
+                    input#username.form-control(name='devicename', placeholder='Device name', required, pattern="[a-zA-Z0-9]+", oninvalid="this.setCustomValidity('Please enter a valid alphanumeric device name')",  onchange="try{this.setCustomValidity('')}catch(e){}")
+
+                .form-group
+                  .col-lg-12
+                    input#username.form-control(name='email', type='email', placeholder='Email', required)
+                .form-group
+                  .col-lg-12
+                    input#password.form-control(name='password', type='password', placeholder='Password', required)
+          .panel-footer
+            button.pull-right.btn.btn-primary(type='submit') Register
+            .clearfix

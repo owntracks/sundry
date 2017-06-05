@@ -1,0 +1,54 @@
+extends layout
+
+block flash
+  - var flashClass = "col-xs-12 col-sm-6 col-sm-offset-3";
+
+block body
+  .row
+    .col-xs-12.col-sm-6.col-sm-offset-3
+      .panel.panel-default#device
+        .panel-heading
+          h4.head Device details
+        .panel-body
+          dl.dl-horizontal.device-details
+            dt User
+            dd= user.username
+            dt Device
+            dd= device.devicename
+
+            dt Token
+            - if(deviceToken)
+              dd
+                span.accessTokenPlain= deviceToken.plain
+            -else
+              dd 
+                span.accessTokenLocked.glyphicon.glyphicon-lock
+          hr.full
+          - if(deviceToken) 
+            p.accessTokenPlain
+              | This is the last time these device credentials will be available for download. 
+              br
+              | Please note down the login and access token somewhere secure.
+              br
+              | You can generate new credentials at any time. 
+          - else
+            p.accessTokenLocked
+              | Your device credentials cannot be recovered once they have been generated.
+              br
+              | If you have lost your credentials please reset the credentials for this device. 
+              br 
+              | Other devices will not be effected. 
+
+
+        .panel-footer
+          form.bs-example.form-horizontal(method='post', action='/devices/#{device.id}/delete')
+            button.pull-left.btn.btn-danger(type='submit', value="delete") Delete
+          form.bs-example.form-horizontal(method='post', action='/devices/#{device.id}/credentials/reset')
+            button.pull-left.btn.btn-white(type='submit', value="delete") Reset credentials    
+          - if(deviceToken)
+            form.bs-example.form-horizontal(method='post', action='/devices/#{device.id}/credentials/send')
+              button.pull-right.btn.btn-white(type='submit', value="delete") Mail
+            a.pull-right.btn.btn-white(href="/devices/#{device.id}/credentials/download") Download
+            a.pull-right.btn.btn-white(href="owntracks:///hosted?user=#{user.username}&device=#{device.devicename}&token=#{deviceToken.plain}") Open App
+          .clearfix
+

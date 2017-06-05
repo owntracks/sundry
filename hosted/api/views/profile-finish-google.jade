@@ -1,0 +1,23 @@
+extends layout
+
+block flash
+  - var flashClass = "col-xs-12 col-sm-6 col-sm-offset-3";
+
+block body
+  .row
+    .col-xs-12.col-sm-6.col-sm-offset-3
+      .panel.panel-default#profile
+        .panel-heading
+          h4 Finish Google Login
+        form.bs-example.form-horizontal(method='post', action='/login/google/finish')
+          .panel-body
+            fieldset
+              .form-group
+                .col-lg-12
+                  p 
+                    | Please fill in the details below to complete your account creation process.
+                    input#username.form-control(name='username', type='username', placeholder='Username', autofocus, required, pattern="[a-zA-Z0-9]+", oninvalid="this.setCustomValidity('Please enter a valid alphanumeric username')",  onchange="try{this.setCustomValidity('')}catch(e){}")
+
+          .panel-footer
+            button.pull-right.btn.btn-primary(type='submit', value="delete") Finish
+            .clearfix

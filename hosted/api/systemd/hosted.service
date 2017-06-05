@@ -1,0 +1,13 @@
+[Service]
+WorkingDirectory=/var/www/hosted
+ExecStart=/usr/local/nvm/versions/node/v0.12.2/bin/node app.js
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=hosted
+User=hosted
+Group=hosted
+Environment='NODE_ENV=production'
+
+[Install]
+WantedBy=multi-user.target

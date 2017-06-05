@@ -1,0 +1,15 @@
+Dear <%=locals.data.user.fullname%>,<br/><br/>
+
+a user wants to share his location with you.  <br/>
+Please review the details below. <br/> <br/>
+
+Username: <%= locals.data.otherUser.username %><br/>
+Device: <%= locals.data.otherUserDevice.devicename %><br/><br/>
+
+You may accept or decline this invitation at <a href="<%=locals.config.externalUrl%>/#/shares"><%=locals.config.externalUrl%>/#/shares</a><br/><br/>
+
+Kind regards,<br/><br/>
+
+The OwnTracks Hosted team<br/>
+Follow us on Twitter: <a href="https://twitter.com/owntracks">https://twitter.com/owntracks</a> <br/>
+Join our community: <a href="https://community.owntracks.org">https://community.owntracks.org</a>

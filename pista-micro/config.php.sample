@@ -1,0 +1,29 @@
+<?php
+
+return array(
+	'dbhost'	=> '127.0.0.1',
+	'dbname'	=> 'owntracks',
+	'dbuser'	=> 'user',
+	'dbpass'	=> 'password',
+
+	# Array of topics (from `lastloc' table) which should be used to
+	# create map's markers
+
+	'topics'	=> array(
+		'owntracks/jjolie/iphone',
+		'owntracks/smith/nexus',
+		),
+
+	# Configure the number of track points to return on a by/topic basis.
+	# If a topic isn't configured, the default of 200 will be used
+	# for it.
+
+	'nrecs'		=> array(
+		'owntracks/jjolie/iphone'	=> 	1000,
+		),
+	
+	# absolute path to font file
+	'fontfile'	=> '/var/www/pista-micro/OpenSans-Bold.ttf',
+   );
+
+?>

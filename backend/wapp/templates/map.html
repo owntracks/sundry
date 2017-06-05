@@ -1,0 +1,44 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/fixes.html" as fixes %}
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='leaflet.css')}}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{{url_for('.static', filename='jquery.min.js')}}"></script>
+<script src="{{url_for('.static', filename='leaflet.js')}}"></script>
+<script src="{{url_for('.static', filename='gpx.js')}}"></script>
+<script src="{{url_for('.static', filename='map.js')}}"></script>
+{{super()}}
+{% endblock %}
+
+
+{% block title %}This is an example page{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+  <!-- ... -->
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+<h1>Map</h1>
+
+	<input type='text' id='mapurl' />
+	<a href='#' id='showmap'>show map</a>
+
+	<div id="map" style="width: 600px; height: 400px"></div>
+
+
+
+
+</div>
+{% endblock %}
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+{% endblock %}

@@ -1,0 +1,23 @@
+extends layout
+
+block flash
+  - var flashClass = "col-xs-12 col-sm-6 col-sm-offset-3";
+
+block body
+  .col-xs-12.col-sm-6.col-sm-offset-3
+    .panel.panel-default
+      .panel-heading
+        h4 Get Started
+      .panel-body
+        p
+          | Welcome to OwnTracks. Your account and a first device have been created successfully. 
+          | Please write down the access token for later use. 
+          | Once you close this site, it cannot be recovered but you can generate a new one
+          br
+          To get started
+          ul
+            li Download the apps
+            li Use the following settings to log in 
+            li Username: #{user.username}
+            li Device: #{device.devicename}
+            li Token: #{device.plainAccessToken}

@@ -1,0 +1,18 @@
+extends layout
+
+block flash
+  - var flashClass = "col-xs-12 col-sm-6 col-sm-offset-3";
+
+block body
+  .row
+    .col-xs-12.col-sm-6.col-sm-offset-3
+      .panel.panel-default
+        .panel-heading
+          h4.head Add Device
+        form.bs-example.form-horizontal(method='post', action='/devices/add')
+          .panel-body
+            input#name.form-control(name='name', placeholder='Name', autofocus, required, pattern="[a-zA-Z0-9]+", oninvalid="this.setCustomValidity('Please enter a valid alphanumeric device name')", onchange="try{this.setCustomValidity('')}catch(e){}")
+          .panel-footer
+            button.pull-right.btn.btn-primary(type='submit') Create
+            .clearfix
+

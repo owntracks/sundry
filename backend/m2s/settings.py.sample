@@ -1,0 +1,78 @@
+#(@)settings.py
+# Note: this must be valid Python!
+
+# Sundry
+
+logfile  = 'logfile'
+
+# Broker
+
+mqtt_broker = 'localhost'       # default: 'localhost'
+mqtt_port = 1883                # default: 1883
+mqtt_clientid = 'm2s-backend'   # MUST be set
+# mqtt_username = 'jane'
+# mqtt_password = 'secret'
+
+# List of topics we should subscribe to
+topics = [
+        'owntracks/+/+',
+        'mqttitude/+/+',
+        'foo/bar'
+    ]
+
+# optional: if any words in this list are present in a topic
+# name, ignore the message
+
+# blocked_topics = [ 'isim', 'jjolie' ]
+
+# Storage
+
+dbengine =  'mysql'
+storage_plugin = 'storage.py'
+dbhost = 'localhost'
+dbname = 'owntracks'          # default: "owntracks"
+dbuser = 'username'
+dbpasswd = 'password'
+dbport = 3306                 # default: 3306
+
+# Plugins
+
+# data_plugins = None
+data_plugins = [
+        # dbcolumn=pluginname       path-to-plugin.py
+        dict(column='weather',      filename='pl-weather.py'),
+        dict(column='revgeo',       filename='pl-revgeo.py'),
+]
+
+# The following configuration is made available to plugins through
+# the m2s object. A plugin can access
+#
+#	m2s.cf.replublish_topic   or
+#	m2s.cf.name
+#	etc.
+#
+# See pl-republish.py for an example which uses 'republish_topic',
+# 'republish_users', 'republish_devices'
+
+plugin_configs = {
+    "republish_topic" : "local/loca",
+    "republish_users" : [ 'john', ],
+    "republish_devices" : [ 'iphone', 'nexus', ],
+    "name" : "JP Mens",
+    "event_notifications" : "home/events/owntracks",
+
+    # Format strings for pl-replublish plugin
+    # these default to the examples given
+    # 'republish_location_fmt' : u'{username}-{device} {timestr} ({weather}) http://maps.google.com/?q={lat},{lon} ({acc}) {address}',
+    # 'republish_event_fmt'    : '{username}-{device} {timestr} => {event} {waypoint} ({weather})',
+    # 'republish_waypoint_fmt' : '{username}-{device} {timestr} Waypoint: {waypoint} ({rad}) {lat}/{lon}',
+
+    # If store_only is not None, it's a list of topics (NO wildcards)
+    # which, if any matches, will cause the storage plugin to write
+    # the item to the database.
+
+    'store_only' :  None,
+    # 'store_only' :  [ 'owntracks/jjolie/iphone', ]
+    "greenwich_repub" : "t/",       # regular expression to sub topic to
+
+}

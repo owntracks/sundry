@@ -1,0 +1,8 @@
+np
+*.o
+*.so
+*.pyc
+jp*.conf
+*.a
+run.sh
+config.mk

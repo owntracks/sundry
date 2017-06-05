@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx creator="MQTTitude GPX Exporter" version="1.0" xmlns="http://www.topografix.com/GPX/1/0">
+<trk>
+  <name>My Trip</name>
+  <desc>Distance: 2.41</desc>
+    <trkseg>
+{% for q in data %}
+	<trkpt lat="{{q.lat}}" lon="{{q.lon}}">
+	  <time>{{q.tst | isodate}}</time>
+	</trkpt>
+{% endfor -%}
+    </trkseg>
+   </trk>
+</gpx>

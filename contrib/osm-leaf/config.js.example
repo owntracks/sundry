@@ -1,0 +1,16 @@
+var config = {
+	websockethost:	'localhost',
+	websocketport:	18883,
+	usetls:		false,
+	userlisturl:    'users.json',
+	subscribe:	'owntracks/+/+',
+	// Update reverse Geo every modulo times. Set
+	// to 1 for each MQTT message, 10 for every 10th
+	geoupdate:	5,
+	apiKey:		'xxxxxx.ynnnyyyy',
+
+	/* If not null, `geofences' is a URL to a JSON file
+	   containing geo fence descriptions. */
+
+	geofences: 	'geo-fences.json',
+};

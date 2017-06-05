@@ -1,0 +1,41 @@
+extends layout
+
+block flash 
+  - var flashClass = "col-xs-12 col-sm-8 col-sm-offset-2"; 
+block body
+  .row
+    .col-xs-12.col-sm-4.col-sm-offset-2
+      .panel.panel-default#login
+        .panel-heading
+          h4 Login
+        form.bs-example.form-horizontal(method='post', action='')
+          .panel-body
+            fieldset
+              if error
+                .alert.alert-dismissable.alert-danger.login-fail
+                  button.close(type='button', data-dismiss='alert') &times;
+                  p.
+                    #{error}
+              .form-group
+                .col-lg-12
+                  input#username.form-control(type='username', name='username', placeholder='Username', autofocus, required)
+              .form-group
+                .col-lg-12
+                  input#password.form-control(type='password', name='password', placeholder='Password', required)
+          .panel-footer
+            a(href="/profile/recover" class="pull-left btn-height") Lost password
+
+            button.pull-right.btn.btn-primary(type='submit') Login
+            a(href="/register" class="btn btn-white pull-right") Register
+            .clearfix
+
+    .col-xs-12.col-sm-4
+      .panel.panel-default#login
+        .panel-heading
+          h4 Alternative Logins
+        .panel-body
+          a(href="/login/facebook" class="altlogin fa fa-facebook")
+          a(href="/login/twitter" class="altlogin fa fa-twitter")
+          a(href="/login/google" class="altlogin fa fa-google")
+          a(href="/login/github" class="altlogin fa fa-github")
+

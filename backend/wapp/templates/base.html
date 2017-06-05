@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<h1>Hi</h1>
+<body>
+	<h2>{% block content_title %}{% endblock %}</h2>
+	{% block content %}{% endblock %}
+
+
+
+        {% for loc in location %}
+		<li>{{ loc.tst }}, {{ loc.username }}, {{ loc.lat }}</li>
+      {% endfor %}
+
+
+</body>
+</html>

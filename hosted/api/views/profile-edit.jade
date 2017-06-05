@@ -1,0 +1,33 @@
+extends layout
+
+block flash
+  - var flashClass = "col-xs-12 col-sm-6 col-sm-offset-3";
+
+block body
+  .row
+    .col-xs-12.col-sm-6.col-sm-offset-3
+      .panel.panel-default#profile
+        .panel-heading
+          h4 Edit Profile
+        form.bs-example.form-horizontal(method='post', action='/profile/edit')
+          .panel-body
+            fieldset
+              .form-group
+                .col-lg-12
+                  input#fullname.form-control(name='fullname', type='username', placeholder='Name', autofocus, value=user.fullname)
+              .form-group
+                .col-lg-12
+                  input#email.form-control(name='email', type='email', value=user.email, placeholder='Email')
+              .form-group
+                .col-lg-12
+                  input#currentPassword.form-control(name='currentPassword', type='password', placeholder='Current password', required)
+              .form-group
+                .col-lg-12
+                  input#newPassword.form-control(name='newPassword', type='password', placeholder='New password')
+              .form-group
+                .col-lg-12
+                  input#newPasswordRepeat.form-control(name='newPasswordRepeat', type='password', placeholder='New password')
+
+          .panel-footer
+            button.pull-right.btn.btn-primary(type='submit', value="delete") Update
+            .clearfix

@@ -1,0 +1,34 @@
+{
+	"broker": {
+		"host": "localhost",
+		"port": 1883,
+		"user": "REPLACEME",
+		"password": "REPLACEME",
+		"clientId": "traction",
+		"prefix" : "owntracks"
+	},
+	"db": {
+		"host": "localhost",
+		"name": "REPLACEME",
+		"user": "REPLACEME",
+		"password": "REPLACEME"
+	},
+
+	"session": {
+		"secret": "REPLACEME"
+	},
+	"redis": {
+		"host": "localhost",
+		"port" : 6379,
+		"prefix" : "traction:sess:"
+	},
+
+	"port":8080,
+
+	"passwordOptions": {
+		"rounds": 10000, 
+		"keyLength": 48, 
+		"saltLength": 32, 
+		"algorithm": "sha256"
+	}
+}
