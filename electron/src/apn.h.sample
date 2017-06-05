@@ -1,0 +1,6 @@
+
+// STARTUP(cellular_credentials_set(APN, USERNAME, PASSWORD, NULL));
+
+#undef APN
+#undef USERNAME
+#undef PASSWORD

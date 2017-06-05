@@ -1,0 +1,15 @@
+data/GPS.cpp.i
+data/MDM.h.i
+data/Socket/TCPSocketConnection.h.i
+data/Relax.cpp.i
+data/Relax.h.i
+data/MDM.cpp.i
+data/Socket/UDPSocket.h.i
+data/GPS.h.i
+data/Pipe.h.i
+data/SerialPipe.h.i
+data/Socket/Endpoint.h.i
+data/SerialPipe.cpp.i
+data/MDMAPN.h.i
+data/Socket/Socket.h.i
+data/MDM.h.orig.i

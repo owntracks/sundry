@@ -1,0 +1,13 @@
+[particle]
+
+token = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+device_id = yyyyyyyyyyyyyyyyyyyyyyyy
+
+
+[mqtt]
+hostname = mqtt.example.org
+port = 8884
+tls_cert = /path/to/root/CA.crt
+username = username
+password = secret
+topic = owntracks/jp/electron1

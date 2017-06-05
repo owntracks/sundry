@@ -1,0 +1,12 @@
+*.pyc
+.DS_Store
+*.o
+*.a
+*.dylib
+*.dSYM
+*.log
+*.pickle
+obsolete/
+*.conf
+prod.sh
+dev.sh

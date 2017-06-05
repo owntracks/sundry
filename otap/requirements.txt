@@ -1,0 +1,24 @@
+MySQL-python
+peewee
+bottle
+
+paho-mqtt
+
+# https://github.com/gerold-penz/python-jsonrpc
+python-jsonrpc
+
+docopt==0.6.1
+
+# requires https://github.com/jedisct1/libsodium
+#  Debian:
+#	apt-get install automake libtool libffi-dev
+#	git clone https://github.com/jedisct1/libsodium.git
+#	cd libsodium
+#	./autogen.sh
+#	./configure --prefix=/usr ; make; make install
+#	ldconfig
+pynacl
+
+requests
+requests_toolbelt
+pytz

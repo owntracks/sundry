@@ -1,0 +1,11 @@
+# apt-get install python-dev
+paho-mqtt
+MySQL-python
+peewee
+python-geohash
+python-dateutil
+bottle
+pytz
+httpagentparser
+
+xlwt

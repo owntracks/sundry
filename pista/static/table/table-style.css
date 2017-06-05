@@ -1,0 +1,60 @@
+html, body {
+      height:100%;
+      width:100%;
+      padding:0px;
+      margin:0px;
+   } 
+body {
+	padding-top: 50px;
+}
+
+a {
+    cursor: pointer;
+    color: #3174c7;
+    text-decoration: none
+}
+
+a:hover {
+    text-decoration: underline
+}
+
+.toggle-bar {
+	padding: 10px;
+}
+
+th {
+}
+
+.topic, .status, .vehicle, .cog, .latlon, .cc, .t, .location {
+	text-align: left;
+}
+
+.tstamp {
+	text-align: right;
+}
+
+.trip {
+	text-align: right;
+}
+
+.kmh, .alt, .weather, .degrees {
+	text-align: right;
+}
+
+td.status {
+	// float: right;
+}
+
+td.location {
+}
+
+td.alt, td.tstamp, td.cc, td.trip, td.t, td.latlon {
+	font-family: 'Andale Mono', 'Courier New', monospace;
+}
+td.cc, td.trip, td.t {
+	font-size: 80%;
+}
+
+td.vel, td.alt {
+	text-align: right;
+}
